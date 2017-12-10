@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#2e4172</color>
+    <color name="primary_dark">#162955</color>
+    <!--<color name="primary_light">#FFCDD2</color>-->
+    <color name="accent">#AA6C39</color>
+    <!--<color name="primary_text">#212121</color>-->
+    <!--<color name="secondary_text">#727272</color>-->
+    <!--<color name="icons">@color/white</color>-->
+    <color name="white">#FFFFFF</color>
+    <!--<color name="divider">#B6B6B6</color>-->
+
+    <color name="sevePrimary">#7B4BFF</color>
+    <color name="seveDark">#2C1D55</color>
+    <color name="seveBorder">#7039EE</color>
+    <color name="seveText">#1DCF9E</color>
+    <color name="seveAlert">#FF4D11</color>
+    <color name="green">#33cc33</color>
+    <color name="red">#ff5050</color>
+</resources>

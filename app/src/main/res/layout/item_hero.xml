@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/seveDark">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/hero_image_circle_view"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/steam_icon"
+        app:civ_border_width="3dp"/>
+
+    <TextView
+        android:id="@+id/hero_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@id/hero_image_circle_view"
+        android:text="@string/hero_placeholder"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <ProgressBar
+        android:id="@+id/hero_games_played_progress_Bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hero_name_text_view"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/hero_image_circle_view"
+        android:progress="50"
+        android:progressBackgroundTint="@android:color/black"
+        android:progressTint="@color/sevePrimary"
+        android:secondaryProgressTintMode="add" />
+
+    <TextView
+        android:id="@+id/hero_games_played_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/hero_games_played_progress_Bar"
+        android:layout_below="@id/hero_games_played_progress_Bar"
+        android:text="@string/games_played"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/hero_games_won_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/games_won"
+        android:textColor="@android:color/white"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/hero_games_played_progress_Bar"/>
+
+
+</RelativeLayout>
