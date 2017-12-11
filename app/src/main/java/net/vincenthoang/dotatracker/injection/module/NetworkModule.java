@@ -33,7 +33,7 @@ public class NetworkModule {
     }
 
     protected String getBaseUrl() {
-        return BuildConfig.POKEAPI_API_URL;
+        return BuildConfig.OPENDOTA_API_URL;
     }
 
     @Provides
