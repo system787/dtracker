@@ -26,15 +26,46 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
         checkViewAttached();
         getView().showProgress(true);
 
-        dataManager.getHeroesPlayedList(114611)
+        dataManager.getHeroesPlayedList(steamId)
                 .compose(SchedulerUtils.ioToMain())
                 .subscribe(heroes -> {
                             getView().showProgress(false);
-                            // TODO: getView().showHeroes(heroes);
+                            getView().getHeroesPlayed(heroes);
                         },
                         throwable -> {
                             getView().showProgress(false);
                             getView().showError(throwable);
                         });
+    }
+
+    public void getWinLoss(long steamId) {
+        checkViewAttached();
+        getView().showProgress(true);
+
+        dataManager.getPlayerWinLoss(steamId)
+                .compose(SchedulerUtils.ioToMain())
+                .subscribe(winLoss -> {
+                            getView().showProgress(false);
+                            getView().getWinLoss(winLoss);
+                        },
+                        throwable -> {
+                            getView().showProgress(false);
+                            getView().showError(throwable);
+                        });
+    }
+
+    public void getPlayerProfile(long steamId) {
+        checkViewAttached();
+        getView().showProgress(true);
+
+        dataManager.getPlayerProfile(steamId)
+                .compose(SchedulerUtils.ioToMain())
+                .subscribe(playerProfile -> {
+                    getView().showProgress(false);
+                    getView().getPlayerProfile(playerProfile);
+                }, throwable -> {
+                    getView().showProgress(false);
+                    getView().showError(throwable);
+                });
     }
 }

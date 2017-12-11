@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import net.vincenthoang.dotatracker.R;
+import net.vincenthoang.dotatracker.data.model.response.PlayerProfile;
+import net.vincenthoang.dotatracker.data.model.response.WinLoss;
 import net.vincenthoang.dotatracker.features.base.BaseFragment;
 import net.vincenthoang.dotatracker.injection.component.FragmentComponent;
 
@@ -17,7 +19,7 @@ import net.vincenthoang.dotatracker.injection.component.FragmentComponent;
  * Created by vincenthoang on 12/10/17.
  */
 
-public class AccountFragment extends BaseFragment implements AccountFragmentView {
+public class AccountFragment extends BaseFragment {
     private FragmentComponent mFragmentComponent;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView mListView;
@@ -72,32 +74,11 @@ public class AccountFragment extends BaseFragment implements AccountFragmentView
         super.onDestroy();
     }
 
-    @Override
-    public void showProfileDetails() {
-
-    }
-
-    @Override
-    public void showWinPercentage() {
-
-    }
-
-    @Override
-    public void showError() {
-
-    }
-
-    @Override
-    public void onClickProfileDetails() {
-
-    }
-
-    @Override
-    public void onRefresh() {
-
-    }
-
     public interface Item {
         public boolean isHeader();
+    }
+
+    public interface onApiReceive {
+        public void onReceive(PlayerProfile playerProfile, WinLoss winLoss);
     }
 }

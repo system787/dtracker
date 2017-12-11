@@ -10,13 +10,16 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import net.vincenthoang.dotatracker.R;
+import net.vincenthoang.dotatracker.data.model.response.HeroesPlayed;
+import net.vincenthoang.dotatracker.data.model.response.PlayerProfile;
+import net.vincenthoang.dotatracker.data.model.response.WinLoss;
 import net.vincenthoang.dotatracker.features.base.BaseActivity;
 import net.vincenthoang.dotatracker.features.common.ErrorView;
 import net.vincenthoang.dotatracker.injection.component.ActivityComponent;
 
-public class MainActivity extends BaseActivity implements MainMvpView, ErrorView.ErrorListener {
+import java.util.List;
 
-    private static final int POKEMON_COUNT = 20;
+public class MainActivity extends BaseActivity implements MainMvpView, ErrorView.ErrorListener {
 
     @Inject
     MainPresenter mainPresenter;
@@ -42,7 +45,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
         setSupportActionBar(toolbar);
 
-        pokemonClicked();
         errorView.setErrorListener(this);
 
         HomeViewPagerAdapter viewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager());
@@ -69,24 +71,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    private void pokemonClicked() {
-       // Disposable disposable =
-       //         pokemonAdapter
-       //                 .getPokemonClick()
-       //                 .subscribe(
-       //                         pokemon ->
-       //                                 startActivity(DetailActivity.getStartIntent(this, pokemon)),
-       //                         throwable -> {
-       //                             Timber.e(throwable, "Pokemon click failed");
-       //                             Toast.makeText(
-       //                                     this,
-       //                                     R.string.error_something_bad_happened,
-       //                                     Toast.LENGTH_LONG)
-       //                                     .show();
-       //                         });
-       // mainPresenter.addDisposable(disposable);
-    }
-
     @Override
     public int getLayout() {
         return R.layout.activity_main;
@@ -105,6 +89,21 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     @Override
     protected void detachPresenter() {
         mainPresenter.detachView();
+    }
+
+    @Override
+    public void getHeroesPlayed(List<HeroesPlayed> heroesPlayedList) {
+
+    }
+
+    @Override
+    public void getWinLoss(WinLoss winLoss) {
+
+    }
+
+    @Override
+    public void getPlayerProfile(PlayerProfile playerProfile) {
+
     }
 
     @Override
