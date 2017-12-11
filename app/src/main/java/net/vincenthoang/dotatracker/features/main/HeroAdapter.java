@@ -1,20 +1,32 @@
 package net.vincenthoang.dotatracker.features.main;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.vincenthoang.dotatracker.R;
 
+import com.koushikdutta.ion.Ion;
+
+import net.vincenthoang.dotatracker.R;
+import net.vincenthoang.dotatracker.data.model.Hero;
+import net.vincenthoang.dotatracker.features.main.fragment.AccountFragment;
+
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
@@ -23,8 +35,15 @@ import io.reactivex.subjects.Subject;
  */
 
 public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.HeroViewHolder> {
-    private List<String> heroList;
-    private Subject<String> heroClickSubject;
+    private final String TAG = "HeroAdapter";
+    private AccountFragment mAccountFragment;
+
+    public HeroAdapter(AccountFragment accountFragment) {
+        this.mAccountFragment = accountFragment;
+    }
+
+    private List<Hero> heroList;
+    private Subject<Hero> heroClickSubject;
 
     @Inject
     HeroAdapter() {
@@ -32,8 +51,8 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.HeroViewHolder
         heroList = Collections.emptyList();
     }
 
-    public void setHeroList(List<String> hero) {
-        this.heroList = hero;
+    public void setHeroList(List<Hero> heroList) {
+        this.heroList = heroList;
         notifyDataSetChanged();
     }
 
@@ -111,15 +130,19 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.HeroViewHolder
         @BindView(R.id.hero_games_won_text_view)
         TextView heroGamesWonText;
 
+        @BindView(R.id.hero_image_circle_view)
+        CircleImageView heroCircleImageView;
+
         private String heroName;
 
         HeroViewHolder(View itemView) {
             super(itemView);
         }
 
-        void onBind(String heroName) {
-            this.heroName = heroName;
+        void onBind(Hero hero) {
+            this.heroName = hero.getLocalizedName();
             heroNameText.setText(heroName);
+            Ion.with(mAccountFragment.getContext()).load(hero.getFileName()).intoImageView(heroCircleImageView);
         }
     }
 }

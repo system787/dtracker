@@ -8,7 +8,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import net.vincenthoang.dotatracker.data.DataManager;
-import net.vincenthoang.dotatracker.data.remote.PokemonService;
 import net.vincenthoang.dotatracker.injection.ApplicationContext;
 
 import static org.mockito.Mockito.mock;

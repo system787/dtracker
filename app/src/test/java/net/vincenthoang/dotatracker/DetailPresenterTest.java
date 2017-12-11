@@ -10,9 +10,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import net.vincenthoang.dotatracker.common.TestDataFactory;
 import net.vincenthoang.dotatracker.data.DataManager;
-import net.vincenthoang.dotatracker.data.model.response.Pokemon;
-import net.vincenthoang.dotatracker.features.detail.DetailMvpView;
-import net.vincenthoang.dotatracker.features.detail.DetailPresenter;
 import net.vincenthoang.dotatracker.util.RxSchedulersOverrideRule;
 import io.reactivex.Single;
 

@@ -1,15 +1,10 @@
 package net.vincenthoang.dotatracker.features.main;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -17,17 +12,12 @@ import butterknife.BindView;
 import net.vincenthoang.dotatracker.R;
 import net.vincenthoang.dotatracker.features.base.BaseActivity;
 import net.vincenthoang.dotatracker.features.common.ErrorView;
-import net.vincenthoang.dotatracker.features.detail.DetailActivity;
 import net.vincenthoang.dotatracker.injection.component.ActivityComponent;
-import io.reactivex.disposables.Disposable;
-import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements MainMvpView, ErrorView.ErrorListener {
 
     private static final int POKEMON_COUNT = 20;
 
-    @Inject
-    PokemonAdapter pokemonAdapter;
     @Inject
     MainPresenter mainPresenter;
 
@@ -37,14 +27,14 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
-    @BindView(R.id.recycler_pokemon)
-    RecyclerView pokemonRecycler;
-
-    @BindView(R.id.swipe_to_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.homeTabLayout)
+    TabLayout mTabLayout;
+
+    @BindView(R.id.homeViewPager)
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,34 +42,49 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
         setSupportActionBar(toolbar);
 
-        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
-        swipeRefreshLayout.setColorSchemeResources(R.color.white);
-        swipeRefreshLayout.setOnRefreshListener(() -> mainPresenter.getPokemon(POKEMON_COUNT));
-
-        pokemonRecycler.setLayoutManager(new LinearLayoutManager(this));
-        pokemonRecycler.setAdapter(pokemonAdapter);
         pokemonClicked();
         errorView.setErrorListener(this);
 
-        mainPresenter.getPokemon(POKEMON_COUNT);
+        HomeViewPagerAdapter viewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager());
+
+        mViewPager.setAdapter(viewPagerAdapter);
+        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                viewPagerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     private void pokemonClicked() {
-        Disposable disposable =
-                pokemonAdapter
-                        .getPokemonClick()
-                        .subscribe(
-                                pokemon ->
-                                        startActivity(DetailActivity.getStartIntent(this, pokemon)),
-                                throwable -> {
-                                    Timber.e(throwable, "Pokemon click failed");
-                                    Toast.makeText(
-                                            this,
-                                            R.string.error_something_bad_happened,
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                });
-        mainPresenter.addDisposable(disposable);
+       // Disposable disposable =
+       //         pokemonAdapter
+       //                 .getPokemonClick()
+       //                 .subscribe(
+       //                         pokemon ->
+       //                                 startActivity(DetailActivity.getStartIntent(this, pokemon)),
+       //                         throwable -> {
+       //                             Timber.e(throwable, "Pokemon click failed");
+       //                             Toast.makeText(
+       //                                     this,
+       //                                     R.string.error_something_bad_happened,
+       //                                     Toast.LENGTH_LONG)
+       //                                     .show();
+       //                         });
+       // mainPresenter.addDisposable(disposable);
     }
 
     @Override
@@ -103,14 +108,8 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     }
 
     @Override
-    public void showPokemon(List<String> pokemon) {
-        pokemonAdapter.setPokemon(pokemon);
-        pokemonRecycler.setVisibility(View.VISIBLE);
-        swipeRefreshLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void showProgress(boolean show) {
+        /*
         if (show) {
             if (pokemonRecycler.getVisibility() == View.VISIBLE
                     && pokemonAdapter.getItemCount() > 0) {
@@ -127,18 +126,21 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
         }
+        */
     }
 
     @Override
     public void showError(Throwable error) {
+        /*
         pokemonRecycler.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
         Timber.e(error, "There was an error retrieving the pokemon");
+        */
     }
 
     @Override
     public void onReloadData() {
-        mainPresenter.getPokemon(POKEMON_COUNT);
+        mainPresenter.getHeroesPlayed(114611);
     }
 }

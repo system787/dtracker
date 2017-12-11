@@ -12,9 +12,6 @@ import java.util.List;
 import net.vincenthoang.dotatracker.common.TestDataFactory;
 import net.vincenthoang.dotatracker.data.DataManager;
 import net.vincenthoang.dotatracker.data.model.response.NamedResource;
-import net.vincenthoang.dotatracker.data.model.response.Pokemon;
-import net.vincenthoang.dotatracker.data.model.response.PokemonListResponse;
-import net.vincenthoang.dotatracker.data.remote.PokemonService;
 import net.vincenthoang.dotatracker.util.RxSchedulersOverrideRule;
 import io.reactivex.Single;
 

@@ -12,9 +12,6 @@ import org.junit.runner.RunWith;
 
 import net.vincenthoang.dotatracker.common.TestComponentRule;
 import net.vincenthoang.dotatracker.common.TestDataFactory;
-import net.vincenthoang.dotatracker.data.model.response.Pokemon;
-import net.vincenthoang.dotatracker.data.model.response.Statistic;
-import net.vincenthoang.dotatracker.features.detail.DetailActivity;
 import net.vincenthoang.dotatracker.util.ErrorTestUtil;
 import io.reactivex.Single;
 

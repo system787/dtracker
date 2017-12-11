@@ -1,10 +1,11 @@
 package net.vincenthoang.dotatracker.injection.module;
 
+import net.vincenthoang.dotatracker.data.remote.PlayerService;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import net.vincenthoang.dotatracker.data.remote.PokemonService;
 import retrofit2.Retrofit;
 
 /**
@@ -15,7 +16,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    PokemonService providePokemonApi(Retrofit retrofit) {
-        return retrofit.create(PokemonService.class);
+    PlayerService providePlayerServiceApi(Retrofit retrofit) {
+        return retrofit.create(PlayerService.class);
     }
 }

@@ -28,9 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="net.vincenthoang.dotatracker.features.detail.DetailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -44,9 +41,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name="net.vincenthoang.dotatracker.features.detail.MapsSampleActivity"
-            android:label="@string/title_activity_maps_sample" />
     </application>
 
 </manifest>

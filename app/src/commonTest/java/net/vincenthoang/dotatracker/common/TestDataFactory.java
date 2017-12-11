@@ -6,9 +6,6 @@ import java.util.Random;
 import java.util.UUID;
 
 import net.vincenthoang.dotatracker.data.model.response.NamedResource;
-import net.vincenthoang.dotatracker.data.model.response.Pokemon;
-import net.vincenthoang.dotatracker.data.model.response.Sprites;
-import net.vincenthoang.dotatracker.data.model.response.Statistic;
 
 /**
  * Factory class that makes instances of data models with random field values. The aim of this class

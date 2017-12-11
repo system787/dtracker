@@ -22,16 +22,15 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
         super.attachView(mvpView);
     }
 
-    public void getPokemon(int limit) {
+    public void getHeroesPlayed(long steamId) {
         checkViewAttached();
         getView().showProgress(true);
-        dataManager
-                .getPokemonList(limit)
+
+        dataManager.getHeroesPlayedList(114611)
                 .compose(SchedulerUtils.ioToMain())
-                .subscribe(
-                        pokemons -> {
+                .subscribe(heroes -> {
                             getView().showProgress(false);
-                            getView().showPokemon(pokemons);
+                            // TODO: getView().showHeroes(heroes);
                         },
                         throwable -> {
                             getView().showProgress(false);

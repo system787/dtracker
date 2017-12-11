@@ -13,7 +13,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import net.vincenthoang.dotatracker.R;
-import net.vincenthoang.dotatracker.data.model.response.Statistic;
 
 public class StatisticView extends RelativeLayout {
 
@@ -50,10 +49,10 @@ public class StatisticView extends RelativeLayout {
     }
 
     @SuppressLint("SetTextI18n")
-    public void setStat(Statistic statistic) {
-        nameText.setText(
-                statistic.stat.name.substring(0, 1).toUpperCase()
-                        + statistic.stat.name.substring(1));
-        statProgress.setProgress(statistic.baseStat);
+    public void setStat() {
+        //nameText.setText(
+        //        statistic.stat.name.substring(0, 1).toUpperCase()
+        //                + statistic.stat.name.substring(1));
+        //statProgress.setProgress(statistic.baseStat);
     }
 }

@@ -15,7 +15,6 @@ import java.util.List;
 import net.vincenthoang.dotatracker.common.TestComponentRule;
 import net.vincenthoang.dotatracker.common.TestDataFactory;
 import net.vincenthoang.dotatracker.data.model.response.NamedResource;
-import net.vincenthoang.dotatracker.data.model.response.Pokemon;
 import net.vincenthoang.dotatracker.features.main.MainActivity;
 import net.vincenthoang.dotatracker.util.ErrorTestUtil;
 import io.reactivex.Single;
