@@ -1,6 +1,6 @@
 package net.vincenthoang.dotatracker.data.remote;
 
-import net.vincenthoang.dotatracker.data.model.response.HeroesPlayedListResponse;
+import net.vincenthoang.dotatracker.data.model.response.HeroesPlayed;
 import net.vincenthoang.dotatracker.data.model.response.PlayerProfile;
 import net.vincenthoang.dotatracker.data.model.response.WinLoss;
 
@@ -16,7 +16,7 @@ import retrofit2.http.Path;
 
 public interface PlayerService {
     @GET("players/{account_id}/heroes")
-    Single<List<HeroesPlayedListResponse>> getHeroesPlayedList(@Path("account_id") String account_id);
+    Single<List<HeroesPlayed>> getHeroesPlayedList(@Path("account_id") String account_id);
 
     @GET("players/{account_id}")
     Single<PlayerProfile> getPlayerProfile(@Path("account_id") String account_id);

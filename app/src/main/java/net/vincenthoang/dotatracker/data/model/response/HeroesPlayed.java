@@ -7,7 +7,7 @@ public class HeroesPlayed {
 
     @SerializedName("hero_id")
     @Expose
-    private String heroId;
+    private int heroId;
     @SerializedName("last_played")
     @Expose
     private int lastPlayed;
@@ -33,8 +33,8 @@ public class HeroesPlayed {
     /**
      * No args constructor for use in serialization
      */
-    public HeroesPlayed() {
-    }
+    //public HeroesPlayed() {
+    //}
 
     /**
      * @param againstWin
@@ -47,7 +47,7 @@ public class HeroesPlayed {
      * @param heroId
      */
 
-    public HeroesPlayed(String heroId, int lastPlayed, int games, int win, int withGames, int withWin, int againstGames, int againstWin) {
+    public HeroesPlayed(int heroId, int lastPlayed, int games, int win, int withGames, int withWin, int againstGames, int againstWin) {
         super();
         this.heroId = heroId;
         this.lastPlayed = lastPlayed;
@@ -59,15 +59,26 @@ public class HeroesPlayed {
         this.againstWin = againstWin;
     }
 
-    public String getHeroId() {
+    public HeroesPlayed(HeroesPlayed hp) {
+        this.heroId = hp.getHeroId();
+        this.lastPlayed = hp.getLastPlayed();
+        this.games = hp.getGames();
+        this.win = hp.getWin();
+        this.withGames = hp.getWithGames();
+        this.withWin = hp.getWithWin();
+        this.againstGames = hp.getAgainstGames();
+        this.againstWin = hp.getAgainstWin();
+    }
+
+    public int getHeroId() {
         return heroId;
     }
 
-    public void setHeroId(String heroId) {
+    public void setHeroId(int heroId) {
         this.heroId = heroId;
     }
 
-    public HeroesPlayed withHeroId(String heroId) {
+    public HeroesPlayed withHeroId(int heroId) {
         this.heroId = heroId;
         return this;
     }
@@ -161,5 +172,19 @@ public class HeroesPlayed {
     public HeroesPlayed withAgainstWin(int againstWin) {
         this.againstWin = againstWin;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "HeroesPlayed{" +
+                "heroId=" + heroId +
+                ", lastPlayed=" + lastPlayed +
+                ", games=" + games +
+                ", win=" + win +
+                ", withGames=" + withGames +
+                ", withWin=" + withWin +
+                ", againstGames=" + againstGames +
+                ", againstWin=" + againstWin +
+                '}';
     }
 }

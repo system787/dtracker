@@ -15,4 +15,5 @@ import dagger.Subcomponent;
 public interface FragmentComponent {
     void inject(MainActivity mainActivity);
     void inject(AccountFragment accountFragment);
+    void inject(FragmentComponent fragmentComponent);
 }

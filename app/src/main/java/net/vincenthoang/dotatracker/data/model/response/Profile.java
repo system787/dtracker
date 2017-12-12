@@ -219,4 +219,20 @@ public class Profile {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "accountId=" + accountId +
+                ", personaname='" + personaname + '\'' +
+                ", name='" + name + '\'' +
+                ", cheese=" + cheese +
+                ", steamid='" + steamid + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", avatarmedium='" + avatarmedium + '\'' +
+                ", avatarfull='" + avatarfull + '\'' +
+                ", profileurl='" + profileurl + '\'' +
+                ", lastLogin='" + lastLogin + '\'' +
+                ", loccountrycode='" + loccountrycode + '\'' +
+                '}';
+    }
 }

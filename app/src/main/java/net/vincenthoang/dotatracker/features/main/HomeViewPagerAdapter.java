@@ -6,12 +6,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import net.vincenthoang.dotatracker.features.main.fragment.AccountFragment;
 
+import javax.inject.Inject;
+
 /**
  * Created by vincenthoang on 12/11/17.
  */
 
 public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 
+    @Inject
     public HomeViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }

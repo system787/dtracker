@@ -34,7 +34,7 @@ public class Hero {
     }
 
     public String getFileName() {
-        return "file:///android_asset/" + mTokenName + ".png";
+        return mTokenName + ".png";
     }
 
     @Override

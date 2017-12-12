@@ -28,8 +28,8 @@ public class DataManager {
         String parameter = String.valueOf(steamId);
         return mPlayerService.getHeroesPlayedList(parameter)
                 .toObservable()
-                .flatMapIterable(list -> list)
-                .map(item -> new HeroesPlayed())
+                .flatMapIterable(item -> item)
+                .map(item -> new HeroesPlayed(item))
                 .toList();
     }
 

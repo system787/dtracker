@@ -3,9 +3,6 @@ package net.vincenthoang.dotatracker.data.model.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import net.vincenthoang.dotatracker.data.model.response.MmrEstimate;
-import net.vincenthoang.dotatracker.data.model.response.Profile;
-
 public class PlayerProfile {
 
     @SerializedName("tracked_until")
@@ -145,5 +142,18 @@ public class PlayerProfile {
     public PlayerProfile withProfile(Profile profile) {
         this.profile = profile;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerProfile{" +
+                "trackedUntil='" + trackedUntil + '\'' +
+                ", soloCompetitiveRank='" + soloCompetitiveRank + '\'' +
+                ", competitiveRank='" + competitiveRank + '\'' +
+                ", rankTier=" + rankTier +
+                ", leaderboardRank=" + leaderboardRank +
+                ", mmrEstimate=" + mmrEstimate +
+                ", profile=" + profile +
+                '}';
     }
 }

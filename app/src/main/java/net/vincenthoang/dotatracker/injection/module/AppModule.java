@@ -4,9 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import net.vincenthoang.dotatracker.injection.ApplicationContext;
+
 import dagger.Module;
 import dagger.Provides;
-import net.vincenthoang.dotatracker.injection.ApplicationContext;
 
 import static net.vincenthoang.dotatracker.Constants.PREF_FILE_NAME;
 
@@ -34,4 +35,5 @@ public class AppModule {
     SharedPreferences provideSharedPreference(@ApplicationContext Context context) {
         return context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
     }
+
 }

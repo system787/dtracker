@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import net.vincenthoang.dotatracker.injection.ActivityContext;
+
 import dagger.Module;
 import dagger.Provides;
-import net.vincenthoang.dotatracker.injection.ActivityContext;
 
 @Module
 public class FragmentModule {

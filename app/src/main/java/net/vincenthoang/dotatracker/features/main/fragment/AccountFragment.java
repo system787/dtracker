@@ -1,6 +1,5 @@
 package net.vincenthoang.dotatracker.features.main.fragment;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -23,9 +22,12 @@ import net.vincenthoang.dotatracker.data.model.Hero;
 import net.vincenthoang.dotatracker.data.model.response.HeroesPlayed;
 import net.vincenthoang.dotatracker.data.model.response.PlayerProfile;
 import net.vincenthoang.dotatracker.data.model.response.WinLoss;
+import net.vincenthoang.dotatracker.features.StatusCallback;
 import net.vincenthoang.dotatracker.features.base.BaseFragment;
 import net.vincenthoang.dotatracker.features.common.ErrorView;
 import net.vincenthoang.dotatracker.features.main.FragmentPresenter;
+import net.vincenthoang.dotatracker.features.main.ProfileCallback;
+import net.vincenthoang.dotatracker.features.main.UpdateableFragment;
 import net.vincenthoang.dotatracker.injection.component.FragmentComponent;
 
 import java.io.IOException;
@@ -33,8 +35,6 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,7 +47,7 @@ import timber.log.Timber;
  * Created by vincenthoang on 12/10/17.
  */
 
-public class AccountFragment extends BaseFragment implements MainFragmentView {
+public class AccountFragment extends BaseFragment implements MainFragmentView, UpdateableFragment {
 
     private static final String TAG = "AccountFragment";
 
@@ -66,17 +66,18 @@ public class AccountFragment extends BaseFragment implements MainFragmentView {
     @BindView(R.id.heroesPlayedListView)
     ListView mListView;
 
-    private FragmentComponent mFragmentComponent;
-    private Context mContext;
+    @BindView(R.id.jankyImageView)
+    ImageView mProfileDrawable;
+
     private View mView;
     private List<Hero> mHeroList;
     private List<HeroesPlayed> mHeroesPlayedList;
     private List<HeroListData> mDataList;
     private WinLoss mWinLoss;
     private PlayerProfile mPlayerProfile;
-    private AccountFragmentAdapter mFragmentAdapter;
+    //private AccountFragmentAdapter mFragmentAdapter;
     private boolean mIsImageLoading;
-    private Drawable mProfileDrawable;
+    private AccountFragmentAdapter mFragmentAdapter;
 
 
     @Override
@@ -91,6 +92,12 @@ public class AccountFragment extends BaseFragment implements MainFragmentView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(R.layout.fragment_account, container, false);
+        //ButterKnife.bind(this, mView);
+
+
+        mDataList = new ArrayList<>();
+        mFragmentAdapter = new AccountFragmentAdapter(getActivity(), mDataList);
+        mListView.setAdapter(mFragmentAdapter);
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -125,7 +132,27 @@ public class AccountFragment extends BaseFragment implements MainFragmentView {
     }
 
     private void refresh() {
-        mFragmentPresenter.getProfileRefresh(114611L);
+        mFragmentPresenter.getProfileRefresh(114611L, new StatusCallback() {
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
+
+    private void loadImage(final ProfileCallback mCallback) {
+        mIsImageLoading = true;
+        Log.i(TAG, "Getting player profile image with Ion");
+        Log.i(TAG, "mPlayerProfile->" + mPlayerProfile.toString());
+        Ion.getDefault(getActivity()).build(mProfileDrawable).load(mPlayerProfile.getProfile().getAvatarfull()).setCallback(new FutureCallback<ImageView>() {
+            @Override
+            public void onCompleted(Exception e, ImageView result) {
+                Log.i(TAG, "Ion request complete");
+                mIsImageLoading = false;
+                mCallback.onProfileComplete();
+            }
+        });
+
+        mCallback.onProfileComplete();
     }
 
     @Override
@@ -165,16 +192,6 @@ public class AccountFragment extends BaseFragment implements MainFragmentView {
     @Override
     public void getPlayerProfile(PlayerProfile playerProfile) {
         mPlayerProfile = playerProfile;
-        ImageView profileImage = new ImageView(getContext());
-        mIsImageLoading = true;
-        Ion.with(profileImage).load(mPlayerProfile.getProfile().getAvatar()).setCallback(new FutureCallback<ImageView>() {
-            @Override
-            public void onCompleted(Exception e, ImageView result) {
-                mIsImageLoading = false;
-                mProfileDrawable = result.getDrawable();
-                prepareViews();
-            }
-        });
     }
 
     @Override
@@ -182,6 +199,13 @@ public class AccountFragment extends BaseFragment implements MainFragmentView {
         mHeroesPlayedList = heroesPlayedList;
         mPlayerProfile = playerProfile;
         mWinLoss = winLoss;
+        loadImage(new ProfileCallback() {
+            @Override
+            public void onProfileComplete() {
+                prepareViews();
+                setFragmentAdapter();
+            }
+        });
     }
 
     @Override
@@ -195,31 +219,34 @@ public class AccountFragment extends BaseFragment implements MainFragmentView {
     }
 
     private void prepareViews() {
+        Log.i(TAG, "Preparing views");
         HeroListHeader heroHeader = new HeroListHeader();
         heroHeader.setUsername(mPlayerProfile.getProfile().getPersonaname());
         heroHeader.setWinPercentage(calculateWinPercentage());
 
-        Collections.sort(mHeroList, new Comparator<Hero>() {
-            @Override
-            public int compare(Hero o1, Hero o2) {
-                return o1.getId() - o2.getId();
-            }
-        });
-
         HeroListHeader header = new HeroListHeader();
         header.setWinPercentage(calculateWinPercentage());
         header.setUsername(mPlayerProfile.getProfile().getPersonaname());
-        header.setDrawable(mProfileDrawable);
+        header.setDrawable(mProfileDrawable.getDrawable());
+        mDataList.add(header);
+
+        for (HeroesPlayed hp : mHeroesPlayedList) {
+            Log.i(TAG, hp.toString());
+        }
+
+        for (Hero h : mHeroList) {
+            Log.i(TAG, h.toString());
+        }
 
         for (HeroesPlayed hp : mHeroesPlayedList) {
             HeroListItem item = new HeroListItem();
-            Hero hero = mHeroList.get(Integer.parseInt(hp.getHeroId()) - 1);
+            Hero hero = getHero(hp);
             item.setHeroName(hero.getLocalizedName());
             item.setGamesPlayed(String.valueOf(hp.getGames()));
             item.setGamesWon(String.valueOf(hp.getWin()));
             item.setGamesPlayedProgress((int) hp.getGames() / (mWinLoss.getLose() + mWinLoss.getWin()));
 
-            AssetManager am = mContext.getAssets();
+            AssetManager am = getContext().getAssets();
             try {
                 InputStream is = am.open(hero.getFileName());
                 Drawable drawable = Drawable.createFromStream(is, hero.getLocalizedName());
@@ -230,18 +257,37 @@ public class AccountFragment extends BaseFragment implements MainFragmentView {
 
             mDataList.add(item);
         }
+
+        Log.i(TAG, "Finished preparing views; mDataList size->" + mDataList.size());
+
         setFragmentAdapter();
     }
 
     private void setFragmentAdapter() {
-        AccountFragmentAdapter adapter = new AccountFragmentAdapter(mContext, mDataList);
+        AccountFragmentAdapter adapter = new AccountFragmentAdapter(getActivity(), mDataList);
+        mFragmentAdapter = adapter;
         mListView.setAdapter(adapter);
-        showProgress(false);
+        mView.refreshDrawableState();
     }
 
     private String calculateWinPercentage() {
         NumberFormat nf = DecimalFormat.getPercentInstance();
         nf.setMaximumFractionDigits(1);
         return nf.format(mWinLoss.getWin() / (mWinLoss.getWin() + mWinLoss.getLose()));
+    }
+
+    @Override
+    public void update() {
+        refresh();
+    }
+
+    private Hero getHero(HeroesPlayed heroesPlayed) {
+        for (Hero h : mHeroList) {
+            int heroId = heroesPlayed.getHeroId();
+            if (heroId == h.getId()) {
+                return h;
+            }
+        }
+        return null;
     }
 }

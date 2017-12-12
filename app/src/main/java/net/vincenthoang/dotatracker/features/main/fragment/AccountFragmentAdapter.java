@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return mDataList != null ? mDataList.size() : 0;
+        return mDataList.size();
     }
 
     /**
@@ -98,7 +99,11 @@ public class AccountFragmentAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        if (getItemViewType(position) == VIEW_TYPE_HEADER) {
+            return getHeaderView(position, convertView, parent);
+        } else if (getItemViewType(position) == VIEW_TYPE_HERO_ITEM) {
+            return getItemView(position, convertView, parent);
+        }
         return null;
     }
 
@@ -127,13 +132,17 @@ public class AccountFragmentAdapter extends BaseAdapter {
         if (getCount() > 0) {
             HeroListData data = getItem(position);
             if (data instanceof HeroListHeader) {
+                Log.i("AccountFragmentAdapter", "VIEW_TYPE_HEADER");
                 return VIEW_TYPE_HEADER;
             } else if (data instanceof HeroListItem) {
+                Log.i("AccountFragmentAdapter", "VIEW_TYPE_ITEM");
                 return VIEW_TYPE_HERO_ITEM;
             } else {
+                Log.i("AccountFragmentAdapter", "VIEW_TYPE_NONE");
                 return VIEW_TYPE_NONE;
             }
         } else {
+            Log.i("AccountFragmentAdapter", "VIEW_TYPE_NONE");
             return VIEW_TYPE_NONE;
         }
     }
@@ -227,14 +236,5 @@ public class AccountFragmentAdapter extends BaseAdapter {
             mGamesPlayedProgressBar.setProgress(gamesPlayed);
         }
     }
-
-
-
-
-
-
-
-
-
 
 }
