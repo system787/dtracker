@@ -35,6 +35,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
     private List<HeroListData> mDataList;
 
     public AccountFragmentAdapter(Context context, List<HeroListData> listData) {
+        super();
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mDataList = listData;
@@ -98,11 +99,15 @@ public class AccountFragmentAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Log.i("AccountFragmentAdapter", "getView called");
         if (getItemViewType(position) == VIEW_TYPE_HEADER) {
+            Log.i("AccountFragmentAdapter", "getView->Header");
             return getHeaderView(position, convertView, parent);
         } else if (getItemViewType(position) == VIEW_TYPE_HERO_ITEM) {
+            Log.i("AccountFragmentAdapter", "getView->ListItem");
             return getItemView(position, convertView, parent);
         }
+        Log.i("AccountFragmentAdapter", "Slipped past the if statemetns");
         return null;
     }
 
@@ -122,6 +127,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
         holder.setHeroImage(listItem.getHeroImage());
         holder.setGamesWon(listItem.getGamesWon());
         holder.setGamesPlayedProgressBar(listItem.getGamesPlayedProgress());
+
 
 
         return convertView;
@@ -172,7 +178,8 @@ public class AccountFragmentAdapter extends BaseAdapter {
 
     public void setDataList(List<HeroListData> listData) {
         this.mDataList = listData;
-        notifyDataSetChanged();
+        Log.i("AccountFragmentAdapter", "mDataList updated->" + mDataList.size());
+        this.notifyDataSetChanged();
     }
 
     public static class HeaderViewHolder {
@@ -208,6 +215,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
 
         public ListItemHolder(View view) {
             mHeroName = view.findViewById(R.id.hero_name_text_view);
+            mGamesWon = view.findViewById(R.id.hero_games_won_text_view);
             mGamesPlayed = view.findViewById(R.id.hero_games_played_text_view);
             mHeroImage = view.findViewById(R.id.hero_image_circle_view);
             mGamesPlayedProgressBar = view.findViewById(R.id.hero_games_played_progress_Bar);

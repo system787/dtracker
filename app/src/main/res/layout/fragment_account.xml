@@ -9,14 +9,15 @@
 
     <ImageView
         android:id="@+id/jankyImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/accountRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         android:layout_centerInParent="true">
 
         <ListView
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/primary"
+            android:visibility="visible"
             android:clickable="false">
 
         </ListView>

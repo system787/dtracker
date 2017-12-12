@@ -38,6 +38,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 
@@ -88,14 +89,11 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         mView = inflater.inflate(R.layout.fragment_account, container, false);
-        //ButterKnife.bind(this, mView);
+        ButterKnife.bind(this, mView);
 
-
+        mListView = mView.findViewById(R.id.heroesPlayedListView);
         mDataList = new ArrayList<>();
-        mFragmentAdapter = new AccountFragmentAdapter(getActivity(), mDataList);
-        mListView.setAdapter(mFragmentAdapter);
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -148,13 +146,22 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
 
     @Override
     public void showList(List<HeroesPlayed> heroesPlayedList) {
-        mFragmentAdapter.setDataList(prepareViews(heroesPlayedList));
         mRefreshLayout.setVisibility(View.VISIBLE);
         mListView.setVisibility(View.VISIBLE);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mDataList = prepareViews(heroesPlayedList);
+                mFragmentAdapter = new AccountFragmentAdapter(getActivity(), mDataList);
+                mListView.setAdapter(mFragmentAdapter);
+                //mFragmentAdapter.setDataList(prepareViews(heroesPlayedList));
+            }
+        });
     }
 
     @Override
     public void showProgress(boolean show) {
+        /*
         if (show) {
             if (mListView.getVisibility() == View.VISIBLE && mFragmentAdapter.getCount() > 0) {
                 mRefreshLayout.setRefreshing(true);
@@ -169,6 +176,7 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
             mRefreshLayout.setRefreshing(false);
             mProgressBar.setVisibility(View.GONE);
         }
+        */
     }
 
     @Override
