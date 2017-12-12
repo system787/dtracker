@@ -94,6 +94,8 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
 
         mListView = mView.findViewById(R.id.heroesPlayedListView);
         mDataList = new ArrayList<>();
+        mFragmentAdapter = new AccountFragmentAdapter(getActivity(), mDataList);
+        mListView.setAdapter(mFragmentAdapter);
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -152,9 +154,8 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
             @Override
             public void run() {
                 mDataList = prepareViews(heroesPlayedList);
-                mFragmentAdapter = new AccountFragmentAdapter(getActivity(), mDataList);
-                mListView.setAdapter(mFragmentAdapter);
-                //mFragmentAdapter.setDataList(prepareViews(heroesPlayedList));
+                mFragmentAdapter.setDataList(prepareViews(heroesPlayedList));
+                mFragmentAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -203,7 +204,6 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
 
     @Override
     public void getRefreshAll(List<HeroesPlayed> heroesPlayedList, PlayerProfile playerProfile, WinLoss winLoss) {
-
         mHeroesPlayedList = heroesPlayedList;
         mPlayerProfile = playerProfile;
         mWinLoss = winLoss;
@@ -226,11 +226,13 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
     private List<HeroListData> prepareViews(List<HeroesPlayed> heroesPlayedList) {
         Log.i(TAG, "Preparing views");
 
+        List<HeroListData> tempList = new ArrayList<>();
+
         HeroListHeader header = new HeroListHeader();
         header.setWinPercentage(calculateWinPercentage());
         header.setUsername(mPlayerProfile.getProfile().getPersonaname());
         header.setDrawable(mProfileDrawable.getDrawable());
-        mDataList.add(header);
+        tempList.add(header);
 
         //for (HeroesPlayed hp : heroesPlayedList) {
         //    Log.i(TAG, hp.toString());
@@ -240,13 +242,15 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
         //    Log.i(TAG, h.toString());
         //}
 
+        int mostPlayed = heroesPlayedList.get(0).getGames();
+
         for (HeroesPlayed hp : heroesPlayedList) {
             HeroListItem item = new HeroListItem();
             Hero hero = getHero(hp);
             item.setHeroName(hero.getLocalizedName());
             item.setGamesPlayed(String.valueOf(hp.getGames()));
             item.setGamesWon(String.valueOf(hp.getWin()));
-            item.setGamesPlayedProgress((int) hp.getGames() / (mWinLoss.getLose() + mWinLoss.getWin()));
+            item.setGamesPlayedProgress((int) ((hp.getGames() * 100.0) / mostPlayed));
 
             AssetManager am = getContext().getAssets();
             try {
@@ -257,18 +261,18 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
                 Log.e(TAG, "Error loading image for hero->" + hero.getLocalizedName());
             }
 
-            mDataList.add(item);
+            tempList.add(item);
         }
 
         Log.i(TAG, "Finished preparing views; mDataList size->" + mDataList.size());
 
-        return mDataList;
+        return tempList;
     }
 
     private String calculateWinPercentage() {
         NumberFormat nf = DecimalFormat.getPercentInstance();
-        nf.setMaximumFractionDigits(1);
-        return nf.format(mWinLoss.getWin() / (mWinLoss.getWin() + mWinLoss.getLose()));
+        nf.setMaximumFractionDigits(2);
+        return nf.format(((100.0 * mWinLoss.getWin()) / (mWinLoss.getWin() + mWinLoss.getLose())) / 100.0);
     }
 
     @Override

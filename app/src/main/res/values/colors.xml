@@ -17,4 +17,10 @@
     <color name="seveAlert">#FF4D11</color>
     <color name="green">#33cc33</color>
     <color name="red">#ff5050</color>
+
+
+    <color name="win_gooder">#0BE75D</color>
+    <color name="win_good">#14A7DF</color>
+    <color name="win_bad">#FF8B0C</color>
+    <color name="win_badder">#FF370C</color>
 </resources>

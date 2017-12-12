@@ -18,6 +18,7 @@ import net.vincenthoang.dotatracker.R;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 
 /**
  * Created by vincenthoang on 12/11/17.
@@ -123,9 +124,9 @@ public class AccountFragmentAdapter extends BaseAdapter {
         }
         HeroListItem listItem = (HeroListItem) getItem(position);
         holder.setHeroName(listItem.getHeroName());
-        holder.setGamesPlayed(listItem.getGamesPlayed());
+        holder.setGamesPlayed(mContext.getString(R.string.games_played, listItem.getGamesPlayed()));
         holder.setHeroImage(listItem.getHeroImage());
-        holder.setGamesWon(listItem.getGamesWon());
+        holder.setGamesWon(mContext.getString(R.string.games_won, listItem.getGamesWon()));
         holder.setGamesPlayedProgressBar(listItem.getGamesPlayedProgress());
 
 
@@ -169,15 +170,21 @@ public class AccountFragmentAdapter extends BaseAdapter {
             holder = (HeaderViewHolder) convertView.getTag();
         }
 
+        String winPercentageText = ((HeroListHeader) getItem(position)).getWinPercentage();
+        double winPercentage = Double.parseDouble(winPercentageText.replaceAll("%", ""));
+
         holder.setUsername(((HeroListHeader) getItem(position)).getUsername());
-        holder.setWinPercentageText(((HeroListHeader) getItem(position)).getWinPercentage());
+        holder.setWinPercentageText(winPercentageText);
+        holder.setRingProgressBar((int) winPercentage);
         holder.setProfilePicture(((HeroListHeader) getItem(position)).getDrawable());
+        holder.setWinPercentageColor(winPercentage, mContext);
 
         return convertView;
     }
 
     public void setDataList(List<HeroListData> listData) {
-        this.mDataList = listData;
+        this.mDataList.clear();
+        this.mDataList.addAll(listData);
         Log.i("AccountFragmentAdapter", "mDataList updated->" + mDataList.size());
         this.notifyDataSetChanged();
     }
@@ -186,11 +193,17 @@ public class AccountFragmentAdapter extends BaseAdapter {
         TextView mUsername;
         TextView mWinPercentageText;
         ImageView mProfilePicture;
+        RingProgressBar mRingProgressBar;
 
         public HeaderViewHolder(View view) {
             mUsername = view.findViewById(R.id.frag_userName);
             mWinPercentageText = view.findViewById(R.id.winPercentageTextView);
             mProfilePicture = view.findViewById(R.id.profilePicture);
+            mRingProgressBar = view.findViewById(R.id.winRingProgressBar);
+        }
+
+        public void setRingProgressBar(int winPercentage) {
+            mRingProgressBar.setProgress(winPercentage);
         }
 
         public void setUsername(String username) {
@@ -204,9 +217,26 @@ public class AccountFragmentAdapter extends BaseAdapter {
         public void setProfilePicture(Drawable profilePicture) {
             mProfilePicture.setImageDrawable(profilePicture);
         }
+
+
+        public void setWinPercentageColor(double winPercentage, Context context) {
+
+            if (winPercentage >= 54) {
+                mWinPercentageText.setTextColor(context.getResources().getColor(R.color.win_gooder));
+            } else if (winPercentage >= 52) {
+                mWinPercentageText.setTextColor(context.getResources().getColor(R.color.win_good));
+            } else if (winPercentage >= 48) {
+                mWinPercentageText.setTextColor(context.getResources().getColor(R.color.white));
+            } else if (winPercentage >= 46){
+                mWinPercentageText.setTextColor(context.getResources().getColor(R.color.win_bad));
+            } else {
+                mWinPercentageText.setTextColor(context.getResources().getColor(R.color.win_badder));
+            }
+        }
     }
 
     public static class ListItemHolder {
+        View mView;
         TextView mHeroName;
         TextView mGamesPlayed;
         TextView mGamesWon;
@@ -214,6 +244,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
         ProgressBar mGamesPlayedProgressBar;
 
         public ListItemHolder(View view) {
+            mView = view;
             mHeroName = view.findViewById(R.id.hero_name_text_view);
             mGamesWon = view.findViewById(R.id.hero_games_won_text_view);
             mGamesPlayed = view.findViewById(R.id.hero_games_played_text_view);
@@ -225,11 +256,11 @@ public class AccountFragmentAdapter extends BaseAdapter {
             mHeroName.setText(heroName);
         }
 
-        public void setGamesPlayed(String gamesPlayed) {
+        public void setGamesPlayed(String gamesPlayed) {;
             mGamesPlayed.setText(gamesPlayed);
         }
 
-        public void setGamesWon(String gamesWon) {
+        public void setGamesWon(String gamesWon) {;
             mGamesWon.setText(gamesWon);
         }
 
@@ -240,6 +271,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
         public void setGamesPlayedProgressBar(int gamesPlayed) {
             mGamesPlayedProgressBar.setProgress(gamesPlayed);
         }
+
     }
 
 }

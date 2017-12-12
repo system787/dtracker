@@ -33,4 +33,5 @@ public class HeroListHeader extends HeroListData {
     public void setDrawable(Drawable drawable) {
         mDrawable = drawable;
     }
+
 }
