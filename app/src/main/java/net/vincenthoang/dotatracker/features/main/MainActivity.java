@@ -6,18 +6,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.widget.ProgressBar;
 
-import javax.inject.Inject;
-
-import butterknife.BindView;
 import net.vincenthoang.dotatracker.R;
-import net.vincenthoang.dotatracker.data.model.response.HeroesPlayed;
-import net.vincenthoang.dotatracker.data.model.response.PlayerProfile;
-import net.vincenthoang.dotatracker.data.model.response.WinLoss;
 import net.vincenthoang.dotatracker.features.base.BaseActivity;
 import net.vincenthoang.dotatracker.features.common.ErrorView;
 import net.vincenthoang.dotatracker.injection.component.ActivityComponent;
 
-import java.util.List;
+import javax.inject.Inject;
+
+import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements MainMvpView, ErrorView.ErrorListener {
 
@@ -92,21 +88,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     }
 
     @Override
-    public void getHeroesPlayed(List<HeroesPlayed> heroesPlayedList) {
-
-    }
-
-    @Override
-    public void getWinLoss(WinLoss winLoss) {
-
-    }
-
-    @Override
-    public void getPlayerProfile(PlayerProfile playerProfile) {
-
-    }
-
-    @Override
     public void showProgress(boolean show) {
         /*
         if (show) {
@@ -140,6 +121,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
     @Override
     public void onReloadData() {
-        mainPresenter.getHeroesPlayed(114611);
     }
+
 }

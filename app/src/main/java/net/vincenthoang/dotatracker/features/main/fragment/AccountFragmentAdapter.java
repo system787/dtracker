@@ -1,21 +1,46 @@
 package net.vincenthoang.dotatracker.features.main.fragment;
 
-import android.database.DataSetObserver;
-import android.service.autofill.AutofillService;
-import android.support.annotation.Nullable;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStructure;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import net.vincenthoang.dotatracker.R;
+
+import java.util.List;
+
+import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by vincenthoang on 12/11/17.
  */
 
 public class AccountFragmentAdapter extends BaseAdapter {
+
+    private static final int VIEW_TYPE_NONE = 0;
+    private static final int VIEW_TYPE_HEADER = 1;
+    private static final int VIEW_TYPE_HERO_ITEM = 2;
+
+    private Context mContext;
+
+    private LayoutInflater mLayoutInflater;
+    private List<HeroListData> mDataList;
+
+    public AccountFragmentAdapter(Context context, List<HeroListData> listData) {
+        this.mContext = context;
+        this.mLayoutInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        this.mDataList = listData;
+    }
+
     /**
      * How many items are in the data set represented by this Adapter.
      *
@@ -23,7 +48,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return 0;
+        return mDataList != null ? mDataList.size() : 0;
     }
 
     /**
@@ -34,8 +59,12 @@ public class AccountFragmentAdapter extends BaseAdapter {
      * @return The data at the specified position.
      */
     @Override
-    public Object getItem(int position) {
-        return null;
+    public HeroListData getItem(int position) {
+        if (mDataList.isEmpty()) {
+            return null;
+        } else {
+            return mDataList.get(position);
+        }
     }
 
     /**
@@ -46,7 +75,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
      */
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     /**
@@ -69,6 +98,143 @@ public class AccountFragmentAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         return null;
     }
+
+    @NonNull
+    private View getItemView(int position, View convertView, ViewGroup parent) {
+        ListItemHolder holder;
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.item_hero, parent, false);
+            holder = new ListItemHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ListItemHolder) convertView.getTag();
+        }
+        HeroListItem listItem = (HeroListItem) getItem(position);
+        holder.setHeroName(listItem.getHeroName());
+        holder.setGamesPlayed(listItem.getGamesPlayed());
+        holder.setHeroImage(listItem.getHeroImage());
+        holder.setGamesWon(listItem.getGamesWon());
+        holder.setGamesPlayedProgressBar(listItem.getGamesPlayedProgress());
+
+        return convertView;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (getCount() > 0) {
+            HeroListData data = getItem(position);
+            if (data instanceof HeroListHeader) {
+                return VIEW_TYPE_HEADER;
+            } else if (data instanceof HeroListItem) {
+                return VIEW_TYPE_HERO_ITEM;
+            } else {
+                return VIEW_TYPE_NONE;
+            }
+        } else {
+            return VIEW_TYPE_NONE;
+        }
+    }
+
+    @Override
+    public int getViewTypeCount()  {
+        return 3;
+    }
+
+    @NonNull
+    private View getHeaderView(int position, View convertView, ViewGroup parent) {
+        HeaderViewHolder holder;
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.account_fragment_header, parent, false);
+            holder = new HeaderViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (HeaderViewHolder) convertView.getTag();
+        }
+
+        holder.setUsername(((HeroListHeader) getItem(position)).getUsername());
+        holder.setWinPercentageText(((HeroListHeader) getItem(position)).getWinPercentage());
+        holder.setProfilePicture(((HeroListHeader) getItem(position)).getDrawable());
+
+        return convertView;
+    }
+
+    public static class HeaderViewHolder {
+        @BindView(R.id.frag_userName)
+        TextView mUsername;
+
+        @BindView(R.id.winPercentageTextView)
+        TextView mWinPercentageText;
+
+        @BindView(R.id.profilePicture)
+        ImageView mProfilePicture;
+
+        public HeaderViewHolder(View view) {
+        }
+
+        public void setUsername(String username) {
+            mUsername.setText(username);
+        }
+
+        public void setWinPercentageText(String winPercentageText) {
+            mWinPercentageText.setText(winPercentageText);
+        }
+
+        public void setProfilePicture(Drawable profilePicture) {
+            mProfilePicture.setImageDrawable(profilePicture);
+        }
+    }
+
+    public static class ListItemHolder {
+
+        @BindView(R.id.hero_name_text_view)
+        TextView mHeroName;
+
+        @BindView(R.id.hero_games_played_text_view)
+        TextView mGamesPlayed;
+
+        @BindView(R.id.hero_games_won_text_view)
+        TextView mGamesWon;
+
+        @BindView(R.id.hero_image_circle_view)
+        CircleImageView mHeroImage;
+
+        @BindView(R.id.hero_games_played_progress_Bar)
+        ProgressBar mGamesPlayedProgressBar;
+
+        public ListItemHolder(View view) {
+        }
+
+        public void setHeroName(String heroName) {
+            mHeroName.setText(heroName);
+        }
+
+        public void setGamesPlayed(String gamesPlayed) {
+            mGamesPlayed.setText(gamesPlayed);
+        }
+
+        public void setGamesWon(String gamesWon) {
+            mGamesWon.setText(gamesWon);
+        }
+
+        public void setHeroImage(Drawable heroImage) {
+            mHeroImage.setImageDrawable(heroImage);
+        }
+
+        public void setGamesPlayedProgressBar(int gamesPlayed) {
+            mGamesPlayedProgressBar.setProgress(gamesPlayed);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 }

@@ -1,10 +1,11 @@
 package net.vincenthoang.dotatracker.injection.component;
 
-import dagger.Subcomponent;
-
 import net.vincenthoang.dotatracker.features.main.MainActivity;
+import net.vincenthoang.dotatracker.features.main.fragment.AccountFragment;
 import net.vincenthoang.dotatracker.injection.PerFragment;
 import net.vincenthoang.dotatracker.injection.module.FragmentModule;
+
+import dagger.Subcomponent;
 
 /**
  * This component inject dependencies to all Fragments across the application
@@ -13,4 +14,5 @@ import net.vincenthoang.dotatracker.injection.module.FragmentModule;
 @Subcomponent(modules = FragmentModule.class)
 public interface FragmentComponent {
     void inject(MainActivity mainActivity);
+    void inject(AccountFragment accountFragment);
 }

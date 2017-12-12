@@ -26,8 +26,10 @@ public class DataManager {
 
     public Single<List<HeroesPlayed>> getHeroesPlayedList(long steamId) {
         String parameter = String.valueOf(steamId);
-        return mPlayerService.getHeroesPlayedList(parameter).toObservable()
-                .flatMapIterable(namedResources -> namedResources.results)
+        return mPlayerService.getHeroesPlayedList(parameter)
+                .toObservable()
+                .flatMapIterable(list -> list)
+                .map(item -> new HeroesPlayed())
                 .toList();
     }
 
@@ -40,19 +42,4 @@ public class DataManager {
         String parameter = String.valueOf(steamId);
         return mPlayerService.getPlayerWinLoss(parameter);
     }
-
-    /*
-    public Single<List<String>> getPokemonList(int limit) {
-        return pokemonService
-                .getPokemonList(limit)
-                .toObservable()
-                .flatMapIterable(namedResources -> namedResources.results)
-                .map(namedResource -> namedResource.name)
-                .toList();
-    }
-
-    public Single<Pokemon> getPokemon(String name) {
-        return pokemonService.getPokemon(name);
-    }
-    */
 }

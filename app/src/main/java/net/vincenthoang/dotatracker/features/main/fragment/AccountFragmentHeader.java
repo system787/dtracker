@@ -18,7 +18,7 @@ import butterknife.BindView;
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 
 
-public class AccountFragmentHeader implements AccountFragment.Item, AccountFragmentView {
+public class AccountFragmentHeader implements AccountFragmentView {
 
     @BindView(R.id.profilePicture)
     ImageView mProfileImageView;
@@ -84,11 +84,6 @@ public class AccountFragmentHeader implements AccountFragment.Item, AccountFragm
     public void onRefresh() {
         showProfileDetails();
         showWinPercentage();
-    }
-
-    @Override
-    public boolean isHeader() {
-        return true;
     }
 
     private String getWinPercentage(int wins, int losses) {
