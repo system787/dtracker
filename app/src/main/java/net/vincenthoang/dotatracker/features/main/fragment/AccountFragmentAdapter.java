@@ -1,7 +1,6 @@
 package net.vincenthoang.dotatracker.features.main.fragment;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -18,7 +17,6 @@ import net.vincenthoang.dotatracker.R;
 
 import java.util.List;
 
-import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -38,8 +36,9 @@ public class AccountFragmentAdapter extends BaseAdapter {
 
     public AccountFragmentAdapter(Context context, List<HeroListData> listData) {
         this.mContext = context;
-        this.mLayoutInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        this.mLayoutInflater = LayoutInflater.from(context);
         this.mDataList = listData;
+        Log.i("AccountFragmentAdapter", "mDataList initialized->" + mDataList.size());
     }
 
     /**
@@ -124,6 +123,7 @@ public class AccountFragmentAdapter extends BaseAdapter {
         holder.setGamesWon(listItem.getGamesWon());
         holder.setGamesPlayedProgressBar(listItem.getGamesPlayedProgress());
 
+
         return convertView;
     }
 
@@ -170,17 +170,20 @@ public class AccountFragmentAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void setDataList(List<HeroListData> listData) {
+        this.mDataList = listData;
+        notifyDataSetChanged();
+    }
+
     public static class HeaderViewHolder {
-        @BindView(R.id.frag_userName)
         TextView mUsername;
-
-        @BindView(R.id.winPercentageTextView)
         TextView mWinPercentageText;
-
-        @BindView(R.id.profilePicture)
         ImageView mProfilePicture;
 
         public HeaderViewHolder(View view) {
+            mUsername = view.findViewById(R.id.frag_userName);
+            mWinPercentageText = view.findViewById(R.id.winPercentageTextView);
+            mProfilePicture = view.findViewById(R.id.profilePicture);
         }
 
         public void setUsername(String username) {
@@ -197,23 +200,17 @@ public class AccountFragmentAdapter extends BaseAdapter {
     }
 
     public static class ListItemHolder {
-
-        @BindView(R.id.hero_name_text_view)
         TextView mHeroName;
-
-        @BindView(R.id.hero_games_played_text_view)
         TextView mGamesPlayed;
-
-        @BindView(R.id.hero_games_won_text_view)
         TextView mGamesWon;
-
-        @BindView(R.id.hero_image_circle_view)
         CircleImageView mHeroImage;
-
-        @BindView(R.id.hero_games_played_progress_Bar)
         ProgressBar mGamesPlayedProgressBar;
 
         public ListItemHolder(View view) {
+            mHeroName = view.findViewById(R.id.hero_name_text_view);
+            mGamesPlayed = view.findViewById(R.id.hero_games_played_text_view);
+            mHeroImage = view.findViewById(R.id.hero_image_circle_view);
+            mGamesPlayedProgressBar = view.findViewById(R.id.hero_games_played_progress_Bar);
         }
 
         public void setHeroName(String heroName) {

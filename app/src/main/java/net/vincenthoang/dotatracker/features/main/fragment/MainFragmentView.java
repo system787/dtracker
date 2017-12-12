@@ -17,6 +17,8 @@ public interface MainFragmentView extends MvpView {
 
     void showError(Throwable error);
 
+    void showList(List<HeroesPlayed> heroesPlayedList);
+
     void getHeroesPlayed(List<HeroesPlayed> heroesPlayedList);
 
     void getWinLoss(WinLoss winLoss);

@@ -4,7 +4,6 @@ import net.vincenthoang.dotatracker.data.DataManager;
 import net.vincenthoang.dotatracker.data.model.response.HeroesPlayed;
 import net.vincenthoang.dotatracker.data.model.response.PlayerProfile;
 import net.vincenthoang.dotatracker.data.model.response.WinLoss;
-import net.vincenthoang.dotatracker.features.StatusCallback;
 import net.vincenthoang.dotatracker.features.base.BasePresenter;
 import net.vincenthoang.dotatracker.features.main.fragment.MainFragmentView;
 import net.vincenthoang.dotatracker.injection.ConfigPersistent;
@@ -87,7 +86,7 @@ public class FragmentPresenter extends BasePresenter<MainFragmentView> {
     }
 
 
-    public void getProfileRefresh(long steamId, final StatusCallback callback) {
+    public void getProfileRefresh(long steamId) {
         checkViewAttached();
         getView().showProgress(true);
 
@@ -98,11 +97,9 @@ public class FragmentPresenter extends BasePresenter<MainFragmentView> {
                 .subscribe(subscriber -> {
                     getView().showProgress(false);
                     getView().getRefreshAll(subscriber.getHeroesPlayedList(), subscriber.getProfile(), subscriber.getWinLoss());
-                    callback.onFinish();
                 }, throwable -> {
                     getView().showProgress(false);
                     getView().showError(throwable);
-                    callback.onFinish();
                 });
     }
 
