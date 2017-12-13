@@ -1,4 +1,4 @@
-package net.vincenthoang.dotatracker.features.main.fragment;
+package net.vincenthoang.dotatracker.features.main.accountfragment;
 
 import net.vincenthoang.dotatracker.features.base.MvpView;
 

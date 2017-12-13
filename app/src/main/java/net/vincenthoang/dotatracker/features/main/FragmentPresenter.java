@@ -5,7 +5,7 @@ import net.vincenthoang.dotatracker.data.model.response.HeroesPlayed;
 import net.vincenthoang.dotatracker.data.model.response.PlayerProfile;
 import net.vincenthoang.dotatracker.data.model.response.WinLoss;
 import net.vincenthoang.dotatracker.features.base.BasePresenter;
-import net.vincenthoang.dotatracker.features.main.fragment.MainFragmentView;
+import net.vincenthoang.dotatracker.features.main.accountfragment.MainFragmentView;
 import net.vincenthoang.dotatracker.injection.ConfigPersistent;
 import net.vincenthoang.dotatracker.util.rx.scheduler.SchedulerUtils;
 

@@ -1,4 +1,4 @@
-package net.vincenthoang.dotatracker.features.main.fragment;
+package net.vincenthoang.dotatracker.features.main.accountfragment;
 
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -97,6 +99,17 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
         mFragmentAdapter = new AccountFragmentAdapter(getActivity(), mDataList);
         mListView.setAdapter(mFragmentAdapter);
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    Toast.makeText(getActivity(), "ListAdapter Pos->" + position, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "ListAdapter Pos->" + position, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -162,7 +175,6 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
 
     @Override
     public void showProgress(boolean show) {
-        /*
         if (show) {
             if (mListView.getVisibility() == View.VISIBLE && mFragmentAdapter.getCount() > 0) {
                 mRefreshLayout.setRefreshing(true);
@@ -177,7 +189,6 @@ public class AccountFragment extends BaseFragment implements MainFragmentView, U
             mRefreshLayout.setRefreshing(false);
             mProgressBar.setVisibility(View.GONE);
         }
-        */
     }
 
     @Override

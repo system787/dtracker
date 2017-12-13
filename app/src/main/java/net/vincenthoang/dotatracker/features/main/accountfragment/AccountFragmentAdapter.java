@@ -1,4 +1,4 @@
-package net.vincenthoang.dotatracker.features.main.fragment;
+package net.vincenthoang.dotatracker.features.main.accountfragment;
 
 
 import android.content.Context;
@@ -100,15 +100,12 @@ public class AccountFragmentAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i("AccountFragmentAdapter", "getView called");
         if (getItemViewType(position) == VIEW_TYPE_HEADER) {
-            Log.i("AccountFragmentAdapter", "getView->Header");
             return getHeaderView(position, convertView, parent);
         } else if (getItemViewType(position) == VIEW_TYPE_HERO_ITEM) {
-            Log.i("AccountFragmentAdapter", "getView->ListItem");
             return getItemView(position, convertView, parent);
         }
-        Log.i("AccountFragmentAdapter", "Slipped past the if statemetns");
+        Log.i("AccountFragmentAdapter", "getView(); Slipped past the if statements");
         return null;
     }
 
@@ -122,14 +119,13 @@ public class AccountFragmentAdapter extends BaseAdapter {
         } else {
             holder = (ListItemHolder) convertView.getTag();
         }
+
         HeroListItem listItem = (HeroListItem) getItem(position);
         holder.setHeroName(listItem.getHeroName());
         holder.setGamesPlayed(mContext.getString(R.string.games_played, listItem.getGamesPlayed()));
         holder.setHeroImage(listItem.getHeroImage());
         holder.setGamesWon(mContext.getString(R.string.games_won, listItem.getGamesWon()));
         holder.setGamesPlayedProgressBar(listItem.getGamesPlayedProgress());
-
-
 
         return convertView;
     }
@@ -139,17 +135,13 @@ public class AccountFragmentAdapter extends BaseAdapter {
         if (getCount() > 0) {
             HeroListData data = getItem(position);
             if (data instanceof HeroListHeader) {
-                Log.i("AccountFragmentAdapter", "VIEW_TYPE_HEADER");
                 return VIEW_TYPE_HEADER;
             } else if (data instanceof HeroListItem) {
-                Log.i("AccountFragmentAdapter", "VIEW_TYPE_ITEM");
                 return VIEW_TYPE_HERO_ITEM;
             } else {
-                Log.i("AccountFragmentAdapter", "VIEW_TYPE_NONE");
                 return VIEW_TYPE_NONE;
             }
         } else {
-            Log.i("AccountFragmentAdapter", "VIEW_TYPE_NONE");
             return VIEW_TYPE_NONE;
         }
     }
@@ -217,7 +209,6 @@ public class AccountFragmentAdapter extends BaseAdapter {
         public void setProfilePicture(Drawable profilePicture) {
             mProfilePicture.setImageDrawable(profilePicture);
         }
-
 
         public void setWinPercentageColor(double winPercentage, Context context) {
 

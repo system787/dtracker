@@ -1,7 +1,7 @@
 package net.vincenthoang.dotatracker.injection.component;
 
 import net.vincenthoang.dotatracker.features.main.MainActivity;
-import net.vincenthoang.dotatracker.features.main.fragment.AccountFragment;
+import net.vincenthoang.dotatracker.features.main.accountfragment.AccountFragment;
 import net.vincenthoang.dotatracker.injection.PerActivity;
 import net.vincenthoang.dotatracker.injection.module.ActivityModule;
 import net.vincenthoang.dotatracker.injection.module.FragmentModule;

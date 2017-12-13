@@ -1,13 +1,10 @@
-package net.vincenthoang.dotatracker.features.main.module;
+package net.vincenthoang.dotatracker.injection.module;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import net.vincenthoang.dotatracker.features.main.HeroAdapter;
-import net.vincenthoang.dotatracker.features.main.fragment.AccountFragment;
-import net.vincenthoang.dotatracker.injection.ActivityContext;
+import net.vincenthoang.dotatracker.features.main.accountfragment.AccountFragment;
 import net.vincenthoang.dotatracker.injection.PerActivity;
-import net.vincenthoang.dotatracker.injection.module.FragmentModule;
 
 import dagger.Module;
 import dagger.Provides;
@@ -28,11 +25,5 @@ public class AccountFragmentModule extends FragmentModule {
     @PerActivity
     HeroAdapter provideHeroAdapter(AccountFragment accountFragment) {
         return new HeroAdapter(accountFragment);
-    }
-
-    @Provides
-    @ActivityContext
-    Context providesContext() {
-        return mFragment.getActivity();
     }
 }

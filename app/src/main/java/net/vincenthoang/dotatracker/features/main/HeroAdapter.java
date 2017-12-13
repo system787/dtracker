@@ -1,25 +1,18 @@
 package net.vincenthoang.dotatracker.features.main;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 
 import com.koushikdutta.ion.Ion;
 
 import net.vincenthoang.dotatracker.R;
 import net.vincenthoang.dotatracker.data.model.Hero;
-import net.vincenthoang.dotatracker.features.main.fragment.AccountFragment;
+import net.vincenthoang.dotatracker.features.main.accountfragment.AccountFragment;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.List;
 

@@ -4,8 +4,7 @@
     android:id="@+id/frag_account_main_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@color/seveDark">
+    android:layout_gravity="center">
 
     <ImageView
         android:id="@+id/jankyImageView"

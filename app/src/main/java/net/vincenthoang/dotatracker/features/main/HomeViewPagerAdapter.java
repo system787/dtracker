@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import net.vincenthoang.dotatracker.features.main.fragment.AccountFragment;
+import net.vincenthoang.dotatracker.features.main.accountfragment.AccountFragment;
 
 import javax.inject.Inject;
 

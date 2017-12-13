@@ -17,7 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name="net.vincenthoang.dotatracker.features.main.MainActivity"
             android:label="@string/app_name"
@@ -27,6 +27,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".features.main.herodetail.HeroDetailActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            
         </activity>
 
         <!--

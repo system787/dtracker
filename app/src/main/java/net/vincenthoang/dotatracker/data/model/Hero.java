@@ -34,7 +34,7 @@ public class Hero {
     }
 
     public String getFileName() {
-        return mTokenName + ".png";
+        return "statichero/" + mTokenName + ".png";
     }
 
     @Override
